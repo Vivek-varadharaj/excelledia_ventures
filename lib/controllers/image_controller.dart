@@ -26,6 +26,7 @@ class ImageController extends GetxController {
 
       List result = await _getImagesServices!.getImages(url);
 
+<<<<<<< HEAD
       List<ImageModel> firstrResult =
           (result.map((url) => ImageModel.fromJson(url))).toList();
       image = [...image, ...firstrResult];
@@ -46,6 +47,13 @@ class ImageController extends GetxController {
   isLoadingChangerToFalse() {
     print("called");
     isLoading = false;
+=======
+    List<ImageModel> firstrResult =
+        (result.map((url) => ImageModel.fromJson(url))).toList();
+    image = [...image!, ...firstrResult];
+
+    print(image);
+>>>>>>> 3c9bceb9da51ef02e2a62060c61fee372f256075
     update();
   }
 }

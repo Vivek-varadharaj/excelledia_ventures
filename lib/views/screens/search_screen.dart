@@ -1,5 +1,8 @@
 import 'package:excelledia_ventures/controllers/image_controller.dart';
+<<<<<<< HEAD
 import 'package:excelledia_ventures/models/image_model.dart';
+=======
+>>>>>>> 3c9bceb9da51ef02e2a62060c61fee372f256075
 
 import 'package:excelledia_ventures/utils/styles.dart';
 import 'package:excelledia_ventures/views/widgets/custom_button.dart';
@@ -18,6 +21,7 @@ class SearchScreen extends StatefulWidget {
 class _SearchScreenState extends State<SearchScreen> {
   final _imageController = Get.put(ImageController());
 
+<<<<<<< HEAD
   final TextEditingController _searchController = TextEditingController();
 
   int index = 1;
@@ -34,6 +38,25 @@ class _SearchScreenState extends State<SearchScreen> {
 
         print(_imageController.isLoading);
         await _imageController.fetchImages(_searchController.text, index);
+      }
+    });
+  }
+=======
+  final TextEditingController _controller = TextEditingController();
+>>>>>>> 3c9bceb9da51ef02e2a62060c61fee372f256075
+
+  int index = 1;
+
+  ScrollController _scrollController = ScrollController();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        index = index + 1;
+        _imageController.fetchImages(_controller.text, index);
       }
     });
   }
@@ -74,6 +97,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 ),
                 GetBuilder<ImageController>(builder: (_imageController) {
                   return Expanded(
+<<<<<<< HEAD
                       child: horizontalPadding(
                     child: GridView.count(
                       mainAxisSpacing: 10,
@@ -87,6 +111,17 @@ class _SearchScreenState extends State<SearchScreen> {
                             (imageModel) => ImageCard(imageModel: imageModel)),
                       ],
                     ),
+=======
+                      child: GridView.count(
+                    physics: BouncingScrollPhysics(),
+                    controller: _scrollController,
+                    crossAxisCount: 2,
+                    childAspectRatio: 1,
+                    children: [
+                      ..._imageController.image!
+                          .map((e) => ImageCard(url: e.url)),
+                    ],
+>>>>>>> 3c9bceb9da51ef02e2a62060c61fee372f256075
                   ));
                 }),
               ],
@@ -107,6 +142,7 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   // functions
+<<<<<<< HEAD
   void onTap() async {
     index = 1;
     _imageController.image = [];
@@ -121,5 +157,11 @@ class _SearchScreenState extends State<SearchScreen> {
     _imageController.dispose();
     _searchController.dispose();
     _scrollController.dispose();
+=======
+  void onTap() {
+    index = 1;
+    _imageController.image = [];
+    _imageController.fetchImages(_controller.text, index);
+>>>>>>> 3c9bceb9da51ef02e2a62060c61fee372f256075
   }
 }
