@@ -1,17 +1,39 @@
 import 'package:excelledia_ventures/controllers/image_controller.dart';
-import 'package:excelledia_ventures/models/image_model.dart';
+
 import 'package:excelledia_ventures/utils/styles.dart';
 import 'package:excelledia_ventures/views/widgets/custom_button.dart';
 import 'package:excelledia_ventures/views/widgets/image_card.dart';
 import 'package:excelledia_ventures/views/widgets/search_field.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/src/simple/get_state.dart';
 
-class SearchScreen extends StatelessWidget {
-  SearchScreen({Key? key}) : super(key: key);
+class SearchScreen extends StatefulWidget {
+  const SearchScreen({Key? key}) : super(key: key);
+
+  @override
+  State<SearchScreen> createState() => _SearchScreenState();
+}
+
+class _SearchScreenState extends State<SearchScreen> {
   final _imageController = Get.put(ImageController());
+
   final TextEditingController _controller = TextEditingController();
+
+  int index = 1;
+
+  ScrollController _scrollController = ScrollController();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        index = index + 1;
+        _imageController.fetchImages(_controller.text, index);
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +49,8 @@ class SearchScreen extends StatelessWidget {
                 child: Row(
               children: [
                 Expanded(
-                  child: SearchField(controller: _controller),
+                  child:
+                      SearchField(controller: _controller, onSubmitted: onTap),
                 ),
                 const SizedBox(
                   width: 10,
@@ -40,6 +63,8 @@ class SearchScreen extends StatelessWidget {
                 builder: (_imageController) {
                   return Expanded(
                       child: GridView.count(
+                    physics: BouncingScrollPhysics(),
+                    controller: _scrollController,
                     crossAxisCount: 2,
                     childAspectRatio: 1,
                     children: [
@@ -55,8 +80,9 @@ class SearchScreen extends StatelessWidget {
   }
 
   // functions
-
   void onTap() {
-    _imageController.fetchImages(_controller.text);
+    index = 1;
+    _imageController.image = [];
+    _imageController.fetchImages(_controller.text, index);
   }
 }

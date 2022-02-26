@@ -8,12 +8,16 @@ class ImageController extends GetxController {
 
   final GetImagesServices? _getImagesServices = GetImagesServices();
 
-  fetchImages(String searchTerm) async {
-    String url = Configs.fetchImageUrl + searchTerm;
+  fetchImages(String searchTerm, int index) async {
+    String url =
+        Configs.baseUrl + "&key=" + Configs.appApiKey + "&q=" + searchTerm;
 
     List result = await _getImagesServices!.getImages(url);
 
-    image = (result.map((url) => ImageModel.fromJson(url))).toList();
+    List<ImageModel> firstrResult =
+        (result.map((url) => ImageModel.fromJson(url))).toList();
+    image = [...image!, ...firstrResult];
+
     print(image);
     update();
   }
