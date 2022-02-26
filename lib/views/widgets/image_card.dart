@@ -1,4 +1,3 @@
-
 import 'package:excelledia_ventures/models/image_model.dart';
 import 'package:excelledia_ventures/views/screens/full_screen_view.dart';
 
@@ -6,8 +5,8 @@ import 'package:excelledia_ventures/views/screens/full_screen_view.dart';
 import 'package:flutter/material.dart';
 
 // outside libraries
-import 'package:shimmer/shimmer.dart';// for shimmer
-import 'package:cached_network_image/cached_network_image.dart';// image displaying
+import 'package:shimmer/shimmer.dart'; // for shimmer
+import 'package:cached_network_image/cached_network_image.dart'; // image displaying
 
 class ImageCard extends StatelessWidget {
   final ImageModel imageModel;
@@ -28,21 +27,21 @@ class ImageCard extends StatelessWidget {
         clipBehavior: Clip.hardEdge,
         elevation: 3,
         child: CachedNetworkImage(
-          fit: BoxFit.cover,
           imageUrl: imageModel.previewUrl,
           // added shimmer to hold the place till image gets loaded from
           // the url
           placeholder: (context, string) => Shimmer.fromColors(
             child: Container(
-              color: Colors.white,
-              width: MediaQuery.of(context).size.width,
+              color: Colors.black,
+              width: MediaQuery.of(context).size.width * 0.2,
             ),
             baseColor: Colors.grey.shade200,
             highlightColor: Colors.grey.shade400,
           ),
 
           // error widget for showing the user error occured
-          errorWidget: (context, url, child) => const Center(child: Text("An error occured")),
+          errorWidget: (context, url, child) =>
+              const Center(child: Text("An error occured")),
         ),
       ),
     );

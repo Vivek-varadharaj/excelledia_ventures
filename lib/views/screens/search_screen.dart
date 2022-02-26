@@ -142,12 +142,18 @@ class _SearchScreenState extends State<SearchScreen> {
 
       await _imageController.fetchImages(_searchController.text, index);
       previousSearchTerm = _searchController.text;
-    } else {
+    } else if (_imageController.searched) {
       //  shows a snackbar to let the user know he is already seeing results for
       // current search term
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text("Already searching for the same term."),
+        ),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Please enter something"),
         ),
       );
     }
