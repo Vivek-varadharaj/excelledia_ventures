@@ -5,6 +5,7 @@ import 'package:excelledia_ventures/views/widgets/custom_button.dart';
 import 'package:excelledia_ventures/views/widgets/image_card.dart';
 import 'package:excelledia_ventures/views/widgets/search_field.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -76,27 +77,40 @@ class _SearchScreenState extends State<SearchScreen> {
                   height: 15,
                 ),
                 GetBuilder<ImageController>(builder: (_imageController) {
-                  if (_imageController.image.isEmpty) {
+                  if (_imageController.everyResult.runtimeType != bool) {
+                    if (_imageController.searched &&
+                        _imageController.everyResult.isEmpty) {
+                      return Center(
+                        child: Text(
+                          "No results",
+                          style: TextStyle(color: kSecondaryColor),
+                        ),
+                      );
+                    }
+                  } else if (_imageController.everyResult.runtimeType == bool) {
                     return Center(
                       child: Text(
-                        "Please search",
+                        "Server error or No Internet",
                         style: TextStyle(color: kSecondaryColor),
                       ),
                     );
                   }
                   return Expanded(
                       child: horizontalPadding(
-                    child: GridView.count(
-                      mainAxisSpacing: 2,
-                      crossAxisSpacing: 2,
+                    child: SingleChildScrollView(
                       physics: const BouncingScrollPhysics(),
                       controller: _scrollController,
-                      crossAxisCount: 2,
-                      childAspectRatio: 1,
-                      children: [
-                        ..._imageController.image.map(
-                            (imageModel) => ImageCard(imageModel: imageModel)),
-                      ],
+                      child: StaggeredGrid.count(
+                        mainAxisSpacing: 2,
+                        crossAxisSpacing: 2,
+
+                        crossAxisCount: 2,
+                        // childAspectRatio: 1,
+                        children: [
+                          ..._imageController.image.map((imageModel) =>
+                              ImageCard(imageModel: imageModel)),
+                        ],
+                      ),
                     ),
                   ));
                 }),

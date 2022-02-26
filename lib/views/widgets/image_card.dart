@@ -23,23 +23,18 @@ class ImageCard extends StatelessWidget {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         clipBehavior: Clip.hardEdge,
         elevation: 3,
-        child: SizedBox(
-          width: size.width * 0.3,
-          height: size.width * 0.3,
-          child: CachedNetworkImage(
-            fit: BoxFit.cover,
-            imageUrl: imageModel.previewUrl,
-            placeholder: (context, url) => Shimmer.fromColors(
-              child: Container(
-                color: Colors.white,
-                width: MediaQuery.of(context).size.width,
-                height: 300,
-              ),
-              baseColor: Colors.grey.shade200,
-              highlightColor: Colors.grey.shade400,
+        child: CachedNetworkImage(
+          fit: BoxFit.cover,
+          imageUrl: imageModel.previewUrl,
+          placeholder: (context, url) => Shimmer.fromColors(
+            child: Container(
+              color: Colors.white,
+              width: MediaQuery.of(context).size.width,
             ),
-            errorWidget: (context, url, child) => Container(),
+            baseColor: Colors.grey.shade200,
+            highlightColor: Colors.grey.shade400,
           ),
+          errorWidget: (context, url, child) => Container(),
         ),
       ),
     );

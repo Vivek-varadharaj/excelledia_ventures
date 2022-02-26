@@ -8,6 +8,8 @@ class ImageController extends GetxController {
   String previousSearchTerm = "";
   int previousIndex = 0;
   bool isLoading = false;
+  List<ImageModel> everyResult = [];
+  bool searched = false;
 
   final GetImagesServices? _getImagesServices = GetImagesServices();
 
@@ -21,12 +23,14 @@ class ImageController extends GetxController {
 
     isLoadingChangerToTrue();
 
-    List result = await _getImagesServices!.getImages(url);
-
-    List<ImageModel> firstrResult =
-        (result.map((url) => ImageModel.fromJson(url))).toList();
-    image = [...image, ...firstrResult];
-    isLoadingChangerToFalse();
+    dynamic result = await _getImagesServices!.getImages(url);
+    if (result.runtimeType != bool) {
+      result as List;
+      everyResult = (result.map((url) => ImageModel.fromJson(url))).toList();
+      image = [...image, ...everyResult];
+      searched = true;
+      isLoadingChangerToFalse();
+    }
 
     update();
   }

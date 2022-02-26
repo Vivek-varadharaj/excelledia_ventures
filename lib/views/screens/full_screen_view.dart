@@ -12,7 +12,9 @@ class FullScreenView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          backgroundColor: kPrimaryColor, title: const Text("Full Screen")),
+          elevation: 0,
+          backgroundColor: kPrimaryColor,
+          title: const Text("Full Screen")),
       backgroundColor: kPrimaryColor,
       body: Center(
         child: CachedNetworkImage(

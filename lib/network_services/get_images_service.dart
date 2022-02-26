@@ -6,7 +6,7 @@ class GetImagesServices extends GetConnect {
       dynamic response = await get(url);
       return response.body["hits"];
     } catch (e) {
-      return [];
+      return false;
     }
   }
 }
