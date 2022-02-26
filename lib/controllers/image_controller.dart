@@ -1,6 +1,10 @@
+
+// project packages
 import 'package:excelledia_ventures/configs/configs.dart';
 import 'package:excelledia_ventures/models/image_model.dart';
 import 'package:excelledia_ventures/network_services/get_images_service.dart';
+
+// outside libraries
 import 'package:get/get.dart';
 
 class ImageController extends GetxController {

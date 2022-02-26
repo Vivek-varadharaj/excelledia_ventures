@@ -1,8 +1,13 @@
-import 'package:cached_network_image/cached_network_image.dart';
+// project packages
 import 'package:excelledia_ventures/models/image_model.dart';
 import 'package:excelledia_ventures/utils/styles.dart';
+
+// flutter packages
 import 'package:flutter/material.dart';
+
+// outside libraries
 import 'package:shimmer/shimmer.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class FullScreenView extends StatelessWidget {
   final ImageModel imageModel;

@@ -1,10 +1,12 @@
+// project packages
 import 'package:excelledia_ventures/controllers/image_controller.dart';
-
 import 'package:excelledia_ventures/utils/styles.dart';
 import 'package:excelledia_ventures/views/widgets/custom_button.dart';
 import 'package:excelledia_ventures/views/widgets/image_card.dart';
 import 'package:excelledia_ventures/views/widgets/search_field.dart';
+// imports from flutter
 import 'package:flutter/material.dart';
+// outside libraries
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
 
@@ -21,6 +23,7 @@ class _SearchScreenState extends State<SearchScreen> {
   final TextEditingController _searchController = TextEditingController();
 
   int index = 1;
+  String previousSearchTerm = "";
 
   final ScrollController _scrollController = ScrollController();
   @override
@@ -103,9 +106,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       child: StaggeredGrid.count(
                         mainAxisSpacing: 2,
                         crossAxisSpacing: 2,
-
                         crossAxisCount: 2,
-                        // childAspectRatio: 1,
                         children: [
                           ..._imageController.image.map((imageModel) =>
                               ImageCard(imageModel: imageModel)),
@@ -133,10 +134,23 @@ class _SearchScreenState extends State<SearchScreen> {
 
   // functions
   void onTap() async {
-    index = 1;
-    _imageController.image = [];
+    // the below if check is to prevent unneccessary calls to api
+    if (previousSearchTerm != _searchController.text &&
+        _searchController.text.isNotEmpty) {
+      index = 1;
+      _imageController.image = [];
 
-    await _imageController.fetchImages(_searchController.text, index);
+      await _imageController.fetchImages(_searchController.text, index);
+      previousSearchTerm = _searchController.text;
+    } else {
+      //  shows a snackbar to let the user know he is already seeing results for
+      // current search term
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Already searching for the same term."),
+        ),
+      );
+    }
   }
 
   @override

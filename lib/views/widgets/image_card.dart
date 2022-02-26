@@ -1,8 +1,13 @@
-import 'package:cached_network_image/cached_network_image.dart';
+
 import 'package:excelledia_ventures/models/image_model.dart';
 import 'package:excelledia_ventures/views/screens/full_screen_view.dart';
+
+// flutter package
 import 'package:flutter/material.dart';
-import 'package:shimmer/shimmer.dart';
+
+// outside libraries
+import 'package:shimmer/shimmer.dart';// for shimmer
+import 'package:cached_network_image/cached_network_image.dart';// image displaying
 
 class ImageCard extends StatelessWidget {
   final ImageModel imageModel;
@@ -10,7 +15,6 @@ class ImageCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return InkWell(
       onTap: () {
         showBottomSheet(
@@ -26,7 +30,9 @@ class ImageCard extends StatelessWidget {
         child: CachedNetworkImage(
           fit: BoxFit.cover,
           imageUrl: imageModel.previewUrl,
-          placeholder: (context, url) => Shimmer.fromColors(
+          // added shimmer to hold the place till image gets loaded from
+          // the url
+          placeholder: (context, string) => Shimmer.fromColors(
             child: Container(
               color: Colors.white,
               width: MediaQuery.of(context).size.width,
@@ -34,7 +40,9 @@ class ImageCard extends StatelessWidget {
             baseColor: Colors.grey.shade200,
             highlightColor: Colors.grey.shade400,
           ),
-          errorWidget: (context, url, child) => Container(),
+
+          // error widget for showing the user error occured
+          errorWidget: (context, url, child) => const Center(child: Text("An error occured")),
         ),
       ),
     );

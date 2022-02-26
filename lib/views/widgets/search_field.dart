@@ -1,4 +1,7 @@
+// project packages
 import 'package:excelledia_ventures/utils/styles.dart';
+
+// flutter packages
 import 'package:flutter/material.dart';
 
 class SearchField extends StatelessWidget {
