@@ -17,6 +17,8 @@ class SearchField extends StatelessWidget {
       },
       controller: controller,
       decoration: InputDecoration(
+          label: const Text("Search"),
+          labelStyle: TextStyle(color: kSecondaryColor),
           enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(color: kSecondaryColor),
           ),

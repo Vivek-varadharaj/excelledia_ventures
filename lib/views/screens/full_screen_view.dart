@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:excelledia_ventures/models/image_model.dart';
+import 'package:excelledia_ventures/utils/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -10,7 +11,9 @@ class FullScreenView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      appBar: AppBar(
+          backgroundColor: kPrimaryColor, title: const Text("Full Screen")),
+      backgroundColor: kPrimaryColor,
       body: Center(
         child: CachedNetworkImage(
           imageUrl: imageModel.largeImageUrl,
