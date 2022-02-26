@@ -1,6 +1,5 @@
 import 'package:excelledia_ventures/controllers/image_controller.dart';
 
-
 import 'package:excelledia_ventures/utils/styles.dart';
 import 'package:excelledia_ventures/views/widgets/custom_button.dart';
 import 'package:excelledia_ventures/views/widgets/image_card.dart';
@@ -25,21 +24,16 @@ class _SearchScreenState extends State<SearchScreen> {
   final ScrollController _scrollController = ScrollController();
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _scrollController.addListener(() async {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
         index = index + 1;
 
-        print(_imageController.isLoading);
         await _imageController.fetchImages(_searchController.text, index);
       }
     });
   }
-
-
-  
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +42,7 @@ class _SearchScreenState extends State<SearchScreen> {
         appBar: AppBar(
           title: const Text("Excelledia Ventures!"),
         ),
-        backgroundColor: kLightBackgroundColor,
+        backgroundColor: kDarkBackgroundColor,
         body: Stack(
           children: [
             Column(
@@ -79,8 +73,8 @@ class _SearchScreenState extends State<SearchScreen> {
                   return Expanded(
                       child: horizontalPadding(
                     child: GridView.count(
-                      mainAxisSpacing: 10,
-                      crossAxisSpacing: 10,
+                      mainAxisSpacing: 2,
+                      crossAxisSpacing: 2,
                       physics: const BouncingScrollPhysics(),
                       controller: _scrollController,
                       crossAxisCount: 2,
@@ -119,7 +113,6 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     _imageController.dispose();
     _searchController.dispose();

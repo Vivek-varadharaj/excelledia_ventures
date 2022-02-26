@@ -1,6 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:excelledia_ventures/models/image_model.dart';
 import 'package:excelledia_ventures/views/screens/full_screen_view.dart';
 import 'package:flutter/material.dart';
+import 'package:shimmer/shimmer.dart';
 
 class ImageCard extends StatelessWidget {
   final ImageModel imageModel;
@@ -24,10 +26,19 @@ class ImageCard extends StatelessWidget {
         child: SizedBox(
           width: size.width * 0.3,
           height: size.width * 0.3,
-          child: Image.network(
-            imageModel.previewUrl,
+          child: CachedNetworkImage(
             fit: BoxFit.cover,
-            errorBuilder: ((context, error, stackTrace) => Container()),
+            imageUrl: imageModel.previewUrl,
+            placeholder: (context, url) => Shimmer.fromColors(
+              child: Container(
+                color: Colors.white,
+                width: MediaQuery.of(context).size.width,
+                height: 300,
+              ),
+              baseColor: Colors.grey.shade200,
+              highlightColor: Colors.grey.shade400,
+            ),
+            errorWidget: (context, url, child) => Container(),
           ),
         ),
       ),

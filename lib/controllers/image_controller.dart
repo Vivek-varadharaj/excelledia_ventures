@@ -32,19 +32,15 @@ class ImageController extends GetxController {
       isLoadingChangerToFalse();
 
       update();
-      print(isLoading);
-      print(image);
     } else if (previousIndex == index || previousSearchTerm != searchTerm) {}
   }
 
   isLoadingChangerToTrue() {
-    print("called");
     isLoading = true;
     update();
   }
 
   isLoadingChangerToFalse() {
-    print("called");
     isLoading = false;
     update();
   }
