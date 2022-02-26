@@ -18,21 +18,17 @@ class ImageController extends GetxController {
         Configs.appApiKey +
         "&q=" +
         searchTerm;
-// checks search term is empty or not. if it is not empty we make a call
-    if (searchTerm.isNotEmpty &&
-        (previousSearchTerm != searchTerm || previousIndex != index)) {
-      isLoadingChangerToTrue();
-      previousSearchTerm = searchTerm;
 
-      List result = await _getImagesServices!.getImages(url);
+    isLoadingChangerToTrue();
 
-      List<ImageModel> firstrResult =
-          (result.map((url) => ImageModel.fromJson(url))).toList();
-      image = [...image, ...firstrResult];
-      isLoadingChangerToFalse();
+    List result = await _getImagesServices!.getImages(url);
 
-      update();
-    } else if (previousIndex == index || previousSearchTerm != searchTerm) {}
+    List<ImageModel> firstrResult =
+        (result.map((url) => ImageModel.fromJson(url))).toList();
+    image = [...image, ...firstrResult];
+    isLoadingChangerToFalse();
+
+    update();
   }
 
   isLoadingChangerToTrue() {

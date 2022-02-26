@@ -2,9 +2,10 @@ import 'package:excelledia_ventures/utils/styles.dart';
 import 'package:flutter/material.dart';
 
 class SearchField extends StatelessWidget {
- final TextEditingController controller;
- final Function onSubmitted;
- const SearchField({Key? key, required this.controller, required this.onSubmitted})
+  final TextEditingController controller;
+  final Function onSubmitted;
+  const SearchField(
+      {Key? key, required this.controller, required this.onSubmitted})
       : super(key: key);
 
   @override
@@ -19,8 +20,8 @@ class SearchField extends StatelessWidget {
           enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(color: kSecondaryColor),
           ),
-          focusedBorder:
-              OutlineInputBorder(borderSide: BorderSide(color: kPrimaryColor))),
+          focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: kSecondaryColor))),
     );
   }
 }

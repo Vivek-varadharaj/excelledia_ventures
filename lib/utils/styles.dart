@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-Color kPrimaryColor = Colors.blue;
+Color kPrimaryColor = const Color.fromARGB(255, 31, 53, 71);
 Color kSecondaryColor = Colors.white;
 
 Color kDarkBackgroundColor = Colors.black;
@@ -12,4 +12,5 @@ Padding horizontalPadding({required Widget child}) {
   );
 }
 
-TextStyle buttonHeadings = TextStyle(color: kPrimaryColor);
+TextStyle buttonHeadings = TextStyle(color: kSecondaryColor);
+TextStyle appBarHeading = TextStyle(color: kSecondaryColor, fontSize: 20, fontWeight: FontWeight.w600);

@@ -25,12 +25,12 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   void initState() {
     super.initState();
-    _scrollController.addListener(() async {
+    _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
         index = index + 1;
 
-        await _imageController.fetchImages(_searchController.text, index);
+        _imageController.fetchImages(_searchController.text, index);
       }
     });
   }
@@ -39,16 +39,22 @@ class _SearchScreenState extends State<SearchScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          title: const Text("Excelledia Ventures!"),
-        ),
-        backgroundColor: kDarkBackgroundColor,
+        backgroundColor: kPrimaryColor,
         body: Stack(
           children: [
             Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(
-                  height: 16,
+                  height: 20,
+                ),
+                horizontalPadding(
+                    child: Text(
+                  "Excelledia Ventures!",
+                  style: appBarHeading,
+                )),
+                const SizedBox(
+                  height: 20,
                 ),
                 horizontalPadding(
                     child: Row(
@@ -70,6 +76,14 @@ class _SearchScreenState extends State<SearchScreen> {
                   height: 15,
                 ),
                 GetBuilder<ImageController>(builder: (_imageController) {
+                  if (_imageController.image.isEmpty) {
+                    return Center(
+                      child: Text(
+                        "Please search",
+                        style: TextStyle(color: kSecondaryColor),
+                      ),
+                    );
+                  }
                   return Expanded(
                       child: horizontalPadding(
                     child: GridView.count(
