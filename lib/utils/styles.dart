@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-Color kPrimaryColor = Colors.red;
-Color kLightBackgroundColor = Colors.grey.shade100;
+Color kPrimaryColor = Colors.white;
+Color kLightBackgroundColor = Colors.white;
 
 Padding horizontalPadding({required Widget child}) {
   return Padding(

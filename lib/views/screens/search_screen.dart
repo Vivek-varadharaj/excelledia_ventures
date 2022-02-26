@@ -1,53 +1,105 @@
 import 'package:excelledia_ventures/controllers/image_controller.dart';
 import 'package:excelledia_ventures/models/image_model.dart';
+
 import 'package:excelledia_ventures/utils/styles.dart';
 import 'package:excelledia_ventures/views/widgets/custom_button.dart';
 import 'package:excelledia_ventures/views/widgets/image_card.dart';
 import 'package:excelledia_ventures/views/widgets/search_field.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/src/simple/get_state.dart';
 
-class SearchScreen extends StatelessWidget {
-  SearchScreen({Key? key}) : super(key: key);
+class SearchScreen extends StatefulWidget {
+  const SearchScreen({Key? key}) : super(key: key);
+
+  @override
+  State<SearchScreen> createState() => _SearchScreenState();
+}
+
+class _SearchScreenState extends State<SearchScreen> {
   final _imageController = Get.put(ImageController());
-  final TextEditingController _controller = TextEditingController();
+
+  final TextEditingController _searchController = TextEditingController();
+
+  int index = 1;
+
+  final ScrollController _scrollController = ScrollController();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _scrollController.addListener(() async {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        index = index + 1;
+
+        print(_imageController.isLoading);
+        await _imageController.fetchImages(_searchController.text, index);
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+          title: const Text("Excelledia Ventures!"),
+        ),
         backgroundColor: kLightBackgroundColor,
-        body: Column(
+        body: Stack(
           children: [
-            const SizedBox(
-              height: 16,
-            ),
-            horizontalPadding(
-                child: Row(
+            Column(
               children: [
-                Expanded(
-                  child: SearchField(controller: _controller),
-                ),
                 const SizedBox(
-                  width: 10,
+                  height: 16,
                 ),
-                CustomButton(title: "Search", onTap: onTap)
-              ],
-            )),
-            GetBuilder<ImageController>(
-                init: _imageController,
-                builder: (_imageController) {
+                horizontalPadding(
+                    child: Row(
+                  children: [
+                    Expanded(
+                      child: SizedBox(
+                        height: 45,
+                        child: SearchField(
+                            controller: _searchController, onSubmitted: onTap),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    CustomButton(title: "Search", onTap: onTap)
+                  ],
+                )),
+                const SizedBox(
+                  height: 15,
+                ),
+                GetBuilder<ImageController>(builder: (_imageController) {
                   return Expanded(
-                      child: GridView.count(
-                    crossAxisCount: 2,
-                    childAspectRatio: 1,
-                    children: [
-                      ..._imageController.image!
-                          .map((e) => ImageCard(url: e.url)),
-                    ],
+                      child: horizontalPadding(
+                    child: GridView.count(
+                      mainAxisSpacing: 10,
+                      crossAxisSpacing: 10,
+                      physics: const BouncingScrollPhysics(),
+                      controller: _scrollController,
+                      crossAxisCount: 2,
+                      childAspectRatio: 1,
+                      children: [
+                        ..._imageController.image.map(
+                            (imageModel) => ImageCard(imageModel: imageModel)),
+                      ],
+                    ),
                   ));
-                })
+                }),
+              ],
+            ),
+            GetBuilder<ImageController>(builder: (_imageController) {
+              return _imageController.isLoading
+                  ? Positioned.fill(
+                      child: Container(
+                          color: Colors.grey.withOpacity(0.3),
+                          alignment: AlignmentDirectional.center,
+                          child: const CircularProgressIndicator()))
+                  : Container();
+            })
           ],
         ),
       ),
@@ -55,8 +107,19 @@ class SearchScreen extends StatelessWidget {
   }
 
   // functions
+  void onTap() async {
+    index = 1;
+    _imageController.image = [];
 
-  void onTap() {
-    _imageController.fetchImages(_controller.text);
+    await _imageController.fetchImages(_searchController.text, index);
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _imageController.dispose();
+    _searchController.dispose();
+    _scrollController.dispose();
   }
 }

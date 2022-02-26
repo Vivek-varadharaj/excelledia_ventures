@@ -1,18 +1,35 @@
+import 'package:excelledia_ventures/models/image_model.dart';
+import 'package:excelledia_ventures/views/screens/full_screen_view.dart';
 import 'package:flutter/material.dart';
 
 class ImageCard extends StatelessWidget {
-  final String url;
-  const ImageCard({Key? key, required this.url}) : super(key: key);
+  final ImageModel imageModel;
+  const ImageCard({Key? key, required this.imageModel}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return SizedBox(
-      width: size.width * 0.3,
-      height: size.width * 0.3,
-      child: Image.network(
-        url,
-        errorBuilder: ((context, error, stackTrace) => Container()),
+    return InkWell(
+      onTap: () {
+        showBottomSheet(
+            backgroundColor: Colors.grey.withOpacity(0.8),
+            context: context,
+            builder: (context) =>
+                Center(child: FullScreenView(imageModel: imageModel)));
+      },
+      child: Card(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        clipBehavior: Clip.hardEdge,
+        elevation: 3,
+        child: SizedBox(
+          width: size.width * 0.3,
+          height: size.width * 0.3,
+          child: Image.network(
+            imageModel.previewUrl,
+            fit: BoxFit.cover,
+            errorBuilder: ((context, error, stackTrace) => Container()),
+          ),
+        ),
       ),
     );
   }
